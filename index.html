@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Swimming-simulation by Wishmitha</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Swimming-simulation</h1>
+        <h2>A Swimming Simulation developed using Java. Basic concepts on Object oriented programing, Java threads, GUI design and MVC architecture was used in development process.</h2>
+        <a href="https://github.com/Wishmitha/Swimming-Simulation" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>Name : W.S Mendis</p>
+
+<p><strong>CS2012 : Principles of Object Oriented Programming – Semester Project – Final Report</strong></p>
+
+<p><strong>Uses of fundamental OOP Principles :</strong></p>
+
+<p><strong>1. Inheritance :</strong>
+Inheritance allows the subclasses inherit all the attributes and methods of their superclass. As clearly
+displayed in the UML diagram, inheritance was used in several occasions in this project. All the
+human related classes such as Swimmer, Judge, Spectator, \Inheritance allows the subclasses inherit
+all the attributes and methods of their superclass. As clearly displayed in the UML diagram,
+inheritance was used in several occasions in this project. All the human related classes such as
+Swimmer, Judge, Spectator, SupportStaff etc. inherits from Person super class. And MaleSwimmer
+and FemaleSwimmer classes inherits from abstract Swimmer class. So, this concept is useful in code
+redundancy and extending the reusability.</p>
+
+<p><strong>2. Abstraction :</strong>
+Abstraction concept is referred to ignoring irrelevant aspects and focusing of reflecting aspects of an
+object. This concept is useful in handling the complexity of the project. Couple of abstract classes
+such as Person and Swimmer were used in this project. Even though these classes cannot be
+instantiated, they minimizes the complexity by holding attributes and methods of their subclasses.
+The abstract methods such as doBackStroke(), doBreastStroke() etc in Swimmer class are useful in
+implementing (overriding) each method slightly differently in MaleSwimmer and FemaleSwimmer
+classes. (Line – 115,116,117,118 in Swimmer Class)</p>
+
+<p><strong>3. Polymorphism :</strong>
+The ability of an object to take many forms is called as polymorphism. Polymorphism was mainly
+used Swimmer type ArrayLists (ArrayList) which can store objects of both
+MaleSwimmer and FemaleSwimmer types. (Line – 13,14 in PeopleTrack Class) This reduces the
+complexity of the project by giving a more generic type to store different types of objects. The sameconcept was used in method load in SaveLoadData class where a ArrayList of type Person
+(ArrayList) was declared to store different types of objects (Swimmers, Judges etc.)
+(Line – 26 in SaveLoadData Class) In ThreadMovement class the ArrayList results of type
+Swimmer is used to store both male and female swimmers. (Line - 28 in ThreadMovement Class)</p>
+
+<p><strong>4. Encapsulation :</strong>
+Encapsulation is referred to hiding of implemented attribute in order to maintain the security of the
+code. This concept was used in this project to hide the most important attributes such as ArrayLists
+which keeps track on people in PeopleTrack class. (Line – 13,14,15,16 in PeopleTrack Class) These
+ArrayLists were declared private, therefore they cannot be accessed or edited from a outside class.
+These lists were maintained by using setter and getter methods. Other than this, in almost all the
+classes, the encapsulation is maintained by declaring attributes private and implementing setters and
+getters.</p>
+
+<p><strong>Concurrency Control</strong></p>
+
+<p>The movement of the each swimmer is configured by a thread which is implemented in
+ThreadMovement Class. This class is a subclass of Thread class in Java, therefore the run() method
+was overridden to initiate the movement of each swimmer. In the run() method, the movement of the
+swimmer is configured by generating a random value according to the swimmer's rating (which is
+given by the user) and summing them inside a loop. (Line – 74,76,83 in ThreadMovement Class)
+This will make sure that the movement of each swimmer differ from one another. These threads are
+initiated ( Thread.start() ) in the doBackStroke(), doBreastStroke() etc methods in the MaleSwimmer
+and FemaleSwimmer classes.
+So, whenever a new simulation begins multiple threads will start and creates a multi threaded
+environment. However all the threads in this projects are mainly used configure the movement of the
+swimmer, therefore even there are interruptions between the threads, it doesn't really break the
+progress of the simulation. And the sleep time of the thread was minimized to around 40 milliseconds to maintain a smooth flow in GUI movement, otherwise sliders tend to show a lagging movement. (Line – 79 in ThreadMovement Class)
+Other than setting the movement of swimmers, these threads in ThreadMovement Class updates the
+status of the Judges and Spectators, displays and records the results, and updates the GUI in differentstages of their running time. (Line – 68,69,70 in ThreadMovent Class) Because run method is
+declared as a synchronized method multiple threads cannot perform above functions simultaneously.
+This useful in maintaining the flow and continuity of the GUI.</p>
+
+<p><strong>Observer Observable Concept</strong></p>
+
+<p>Observer Observable concept was used in this project to build the relation between Spectator and the
+Score Board. In this project this relation was built manually without using in built the Observer and
+Observable classes in Java.
+In this scenario Observer is the Spectator and the Observable is the Score Board which notifies the
+Observer when states changed. First a ArrayList of type Spectator (ArrayList) was
+implemented inside the Class ScoreBoard. This is one of the fundamentals of this concept where
+Observable should consist of a list of Observers. Usually there should be attach() and detach()
+methods inside the Observable Class in order to maintain list of Observers, but in this case these
+methods haven't been implemented because PeopleTrack Class already keeps track on every Spectator
+created in the simulation. (Line – 16 in PeopleTrack class) Therefore that list of Spectators is
+implemented inside the ScoreBoard class.
+Then the notifySpectator(int i) method was implemented to update all the Spectators in the list (Line
+– 45 in ScoreBoard Class) This integer parameter (i) is given by the running thread, and inside the
+method this value is passed to the update(int i) method in Spectator Class. According to this value
+Spectator changes its status (Line – 33 in Spectator Class) In order to Spectator objects to be updated
+according the ScoreBoard states, notifySpectator(int i) method should constantly feed update(int i)
+method with values given by the Thread. It is done in the ThreadMovement Class. (Line – 71,90 in
+ThreadMovement Class)</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Wishmitha/Swimming-Simulation/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Wishmitha/Swimming-Simulation/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Wishmitha/Swimming-Simulation"></a> is maintained by <a href="https://github.com/Wishmitha">Wishmitha</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
